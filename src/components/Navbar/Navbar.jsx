@@ -11,7 +11,12 @@ import {
 } from '../index';
 
 class Navbar extends Component {
-  state = { category: 'all', isOpen: false, currency: 'usd' };
+  state = {
+    category: 'all',
+    isOpen: false,
+    currency: 'usd',
+    cartTotalItems: '3',
+  };
 
   onClose = () => {
     this.setState({ isOpen: false });
@@ -88,7 +93,7 @@ class Navbar extends Component {
           <div className="cart-container">
             <EmptyCart />
             <div className="cart-items">
-              <p>3</p>
+              <p>{this.state.cartTotalItems}</p>
             </div>
           </div>
         </div>

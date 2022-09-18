@@ -1,3 +1,4 @@
+import './Home.scss';
 import React, { Component } from 'react';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
 const cache = new InMemoryCache();
@@ -19,15 +20,15 @@ class Home extends Component {
   state = { products: [] };
 
   componentDidMount() {
-    this.onStartFetch();
+    this.onStartFetch('all');
   }
 
-  onStartFetch = async () => {
+  onStartFetch = async (term) => {
     try {
       const { data } = await client.query({
         query: gql`
           query {
-            category(input: { title: "all" }) {
+            category(input: { title: "${term}" }) {
               name
               products {
                 id
@@ -51,11 +52,24 @@ class Home extends Component {
   render() {
     console.log(this.state);
     return (
-      <div>
-        {this.state.products.map((product) => {
-          return <h1 key={product.id}>{product.name}</h1>;
-        })}
-      </div>
+      <main className="products-page">
+        <section className="category-title">
+          <h2>Category name</h2>
+        </section>
+        <section className="products-container">
+          {this.state.products.map((product) => {
+            return (
+              <div className="product-container" key={product.id}>
+                <img src={product.gallery[0]} alt={product.name} />
+                <div className="product-name">
+                  <h3>{product.name}</h3>
+                  <h4>$50</h4>
+                </div>
+              </div>
+            );
+          })}
+        </section>
+      </main>
     );
   }
 }
