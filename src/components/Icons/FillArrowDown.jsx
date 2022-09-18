@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class FillArrowDown extends Component {
   render() {
     return (
-      <div className="arrow-down">
+      <div className="arrow-down" onClick={this.props.onOpen}>
         <svg
           width="8"
           height="4"

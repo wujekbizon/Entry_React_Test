@@ -2,3 +2,25 @@
   margin: 0;
   padding: 0;
 }
+
+.arrow-up,
+.arrow-down {
+  cursor: pointer;
+}
+
+.dollar-sign,
+.euro-sign,
+.yen-sign {
+  display: flex;
+  align-items: center;
+}
+
+.dollar-sign,
+.yen-sign,
+.euro-sign p {
+  font-size: 19px;
+}
+
+.yen-sign p {
+  margin-right: 5px;
+}

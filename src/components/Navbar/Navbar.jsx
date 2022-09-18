@@ -11,7 +11,28 @@ import {
 } from '../index';
 
 class Navbar extends Component {
-  state = { category: 'all' };
+  state = { category: 'all', isOpen: false, currency: 'usd' };
+
+  onClose = () => {
+    this.setState({ isOpen: false });
+  };
+
+  onOpen = () => {
+    this.setState({ isOpen: true });
+  };
+
+  onSetDollar = () => {
+    this.setState({ currency: 'usd' });
+    this.setState({ isOpen: false });
+  };
+  onSetEuro = () => {
+    this.setState({ currency: 'eur' });
+    this.setState({ isOpen: false });
+  };
+  onSetYen = () => {
+    this.setState({ currency: 'yen' });
+    this.setState({ isOpen: false });
+  };
 
   render() {
     return (
@@ -53,15 +74,47 @@ class Navbar extends Component {
         </div>
         <div className="right">
           <div className="currency-container">
-            <Dollar />
+            {(this.state.currency === 'usd' && <Dollar />) ||
+              (this.state.currency === 'eur' && <Euro />) ||
+              (this.state.currency === 'yen' && <Yen />)}
 
-            <FillArrowDown />
+            {this.state.isOpen ? (
+              <FillArrowUp onClose={this.onClose} />
+            ) : (
+              <FillArrowDown onOpen={this.onOpen} />
+            )}
           </div>
+
           <div className="cart-container">
             <EmptyCart />
-
-            <div className="cart-items"></div>
+            <div className="cart-items">
+              <p>3</p>
+            </div>
           </div>
+        </div>
+        <div
+          className={
+            this.state.isOpen ? 'currency-switcher open' : 'currency-switcher'
+          }
+        >
+          <button
+            onClick={this.onSetDollar}
+            disabled={this.state.currency === 'usd'}
+          >
+            <Dollar currency={'USD'} />
+          </button>
+          <button
+            onClick={this.onSetEuro}
+            disabled={this.state.currency === 'eur'}
+          >
+            <Euro currency={'EUR'} />
+          </button>
+          <button
+            onClick={this.onSetYen}
+            disabled={this.state.currency === 'yen'}
+          >
+            <Yen currency={'JPY'} />
+          </button>
         </div>
       </nav>
     );

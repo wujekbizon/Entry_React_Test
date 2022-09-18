@@ -16,6 +16,7 @@ export default class Dollar extends Component {
             fill="#1D1F22"
           />
         </svg>
+        <p>{this.props.currency}</p>
       </div>
     );
   }
