@@ -11,13 +11,42 @@ import {
 } from '../index';
 
 class Navbar extends Component {
+  state = { category: 'all' };
+
   render() {
     return (
       <nav className="navbar">
         <div className="left">
-          <h4 className="active">all</h4>
-          <h4>tech</h4>
-          <h4>clothes</h4>
+          <div
+            className={
+              this.state.category === 'all'
+                ? 'category-container active'
+                : 'category-container'
+            }
+            onClick={() => this.setState({ category: 'all' })}
+          >
+            <h4>all</h4>
+          </div>
+          <div
+            className={
+              this.state.category === 'tech'
+                ? 'category-container active'
+                : 'category-container'
+            }
+            onClick={() => this.setState({ category: 'tech' })}
+          >
+            <h4>tech</h4>
+          </div>
+          <div
+            className={
+              this.state.category === 'clothes'
+                ? 'category-container active'
+                : 'category-container'
+            }
+            onClick={() => this.setState({ category: 'clothes' })}
+          >
+            <h4>clothes</h4>
+          </div>
         </div>
         <div className="center">
           <Logo />

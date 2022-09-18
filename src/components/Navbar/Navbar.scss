@@ -1,37 +1,54 @@
 @import '../../global.scss';
 
 .navbar {
-  width: 100vw;
   height: 80px;
   display: flex;
   align-items: center;
   justify-content: space-around;
+  padding: 0 100px;
 
   .left {
     display: flex;
     align-items: center;
-    text-transform: uppercase;
+    justify-content: flex-start;
+    flex: 1;
+
+    .category-container {
+      display: flex;
+      align-items: center;
+      justify-content: flex-start;
+      text-transform: uppercase;
+      height: 78px;
+
+      border-bottom: 2px solid transparent;
+      padding: 0 10px;
+    }
+
+    .active {
+      border-color: #5ece7b;
+    }
 
     h4 {
       font-family: $navbarFont;
       font-size: 16px;
       line-height: 19.2px;
       font-weight: 400;
-      margin-left: 30px;
       cursor: pointer;
-    }
-
-    h4.active {
-      font-weight: 600;
-      color: #5ece7b;
     }
   }
 
   .center {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex: 2;
   }
 
   .right {
     display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex: 1;
 
     .currency-container {
       display: flex;
