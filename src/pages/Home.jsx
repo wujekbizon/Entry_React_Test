@@ -1,26 +1,24 @@
 import './Home.scss';
 import React, { Component } from 'react';
-import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
-const cache = new InMemoryCache();
-
-const client = new ApolloClient({
-  cache: cache,
-  uri: 'http://localhost:4000/',
-  name: 'react-web-client',
-  version: '1.3',
-  queryDeduplication: false,
-  defaultOptions: {
-    watchQuery: {
-      fetchPolicy: 'cache-and-network',
-    },
-  },
-});
+import { gql } from '@apollo/client';
+import { connect } from 'react-redux';
+import { client } from '../requestMethods';
+import {
+  getProductsStart,
+  getProductsSuccess,
+  getProductsFailure,
+} from '../redux/productRedux';
 
 class Home extends Component {
-  state = { products: [] };
-
   componentDidMount() {
+    this.props.getProductsStart();
     this.onStartFetch('all');
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.category !== this.props.category) {
+      this.onStartFetch(this.props.category);
+    }
   }
 
   onStartFetch = async (term) => {
@@ -44,19 +42,26 @@ class Home extends Component {
         `,
       });
       const allProducts = data.category.products;
-      this.setState({ products: allProducts });
+
+      this.props.getProductsSuccess(allProducts);
     } catch (error) {
-      console.log(error);
+      this.props.getProductsFailure();
+      console.log(this.props.error);
     }
   };
   render() {
+    const { loading, category, products } = this.props;
+
+    if (loading) {
+      return <h1>Loading...</h1>;
+    }
     return (
       <main className="products-page">
         <section className="category-title">
-          <h2>Category name</h2>
+          <h2>{category.toUpperCase()}</h2>
         </section>
         <section className="products-container">
-          {this.state.products.map((product) => {
+          {products.map((product) => {
             return (
               <div className="product-container" key={product.id}>
                 <img src={product.gallery[0]} alt={product.name} />
@@ -73,4 +78,17 @@ class Home extends Component {
   }
 }
 
-export default Home;
+const mapStateToProps = (state) => ({
+  category: state.navbar.category,
+  products: state.product.products,
+  loading: state.product.isLoading,
+  error: state.product.isError,
+});
+
+const mapDispatchToProps = {
+  getProductsStart,
+  getProductsSuccess,
+  getProductsFailure,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
