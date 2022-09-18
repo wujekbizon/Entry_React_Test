@@ -50,7 +50,6 @@ class Home extends Component {
     }
   };
   render() {
-    console.log(this.state);
     return (
       <main className="products-page">
         <section className="category-title">

@@ -1,5 +1,12 @@
 import './Navbar.scss';
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import {
+  openCurrency,
+  closeCurrency,
+  changeCategory,
+  changeCurrency,
+} from '../../redux/navbarRedux';
 import {
   Logo,
   FillArrowDown,
@@ -11,65 +18,54 @@ import {
 } from '../index';
 
 class Navbar extends Component {
-  state = {
-    category: 'all',
-    isOpen: false,
-    currency: 'usd',
-    cartTotalItems: '3',
-  };
-
-  onClose = () => {
-    this.setState({ isOpen: false });
-  };
-
-  onOpen = () => {
-    this.setState({ isOpen: true });
-  };
-
   onSetDollar = () => {
-    this.setState({ currency: 'usd' });
-    this.setState({ isOpen: false });
+    this.props.changeCurrency('usd');
+    this.props.closeCurrency();
   };
+
   onSetEuro = () => {
-    this.setState({ currency: 'eur' });
-    this.setState({ isOpen: false });
+    this.props.changeCurrency('eur');
+    this.props.closeCurrency();
   };
+
   onSetYen = () => {
-    this.setState({ currency: 'yen' });
-    this.setState({ isOpen: false });
+    this.props.changeCurrency('yen');
+    this.props.closeCurrency();
   };
 
   render() {
+    const { open, category, currency, closeCurrency, openCurrency } =
+      this.props;
     return (
       <nav className="navbar">
         <div className="left">
           <div
             className={
-              this.state.category === 'all'
+              category === 'all'
                 ? 'category-container active'
                 : 'category-container'
             }
-            onClick={() => this.setState({ category: 'all' })}
+            onClick={() => this.props.changeCategory('all')}
           >
             <h4>all</h4>
           </div>
           <div
             className={
-              this.state.category === 'tech'
+              category === 'tech'
                 ? 'category-container active'
                 : 'category-container'
             }
-            onClick={() => this.setState({ category: 'tech' })}
+            onClick={() => this.props.changeCategory('tech')}
           >
             <h4>tech</h4>
           </div>
           <div
             className={
-              this.state.category === 'clothes'
+              category === 'clothes'
                 ? 'category-container active'
                 : 'category-container'
             }
-            onClick={() => this.setState({ category: 'clothes' })}
+            onClick={() => this.props.changeCategory('clothes')}
           >
             <h4>clothes</h4>
           </div>
@@ -79,45 +75,32 @@ class Navbar extends Component {
         </div>
         <div className="right">
           <div className="currency-container">
-            {(this.state.currency === 'usd' && <Dollar />) ||
-              (this.state.currency === 'eur' && <Euro />) ||
-              (this.state.currency === 'yen' && <Yen />)}
+            {(currency === 'usd' && <Dollar />) ||
+              (currency === 'eur' && <Euro />) ||
+              (currency === 'yen' && <Yen />)}
 
-            {this.state.isOpen ? (
-              <FillArrowUp onClose={this.onClose} />
+            {open ? (
+              <FillArrowUp onClose={() => closeCurrency()} />
             ) : (
-              <FillArrowDown onOpen={this.onOpen} />
+              <FillArrowDown onOpen={() => openCurrency()} />
             )}
           </div>
 
           <div className="cart-container">
             <EmptyCart />
             <div className="cart-items">
-              <p>{this.state.cartTotalItems}</p>
+              <p>3</p>
             </div>
           </div>
         </div>
-        <div
-          className={
-            this.state.isOpen ? 'currency-switcher open' : 'currency-switcher'
-          }
-        >
-          <button
-            onClick={this.onSetDollar}
-            disabled={this.state.currency === 'usd'}
-          >
+        <div className={open ? 'currency-switcher open' : 'currency-switcher'}>
+          <button onClick={this.onSetDollar} disabled={currency === 'usd'}>
             <Dollar currency={'USD'} />
           </button>
-          <button
-            onClick={this.onSetEuro}
-            disabled={this.state.currency === 'eur'}
-          >
+          <button onClick={this.onSetEuro} disabled={currency === 'eur'}>
             <Euro currency={'EUR'} />
           </button>
-          <button
-            onClick={this.onSetYen}
-            disabled={this.state.currency === 'yen'}
-          >
+          <button onClick={this.onSetYen} disabled={currency === 'yen'}>
             <Yen currency={'JPY'} />
           </button>
         </div>
@@ -126,4 +109,17 @@ class Navbar extends Component {
   }
 }
 
-export default Navbar;
+const mapStateToProps = (state) => ({
+  open: state.navbar.isOpen,
+  currency: state.navbar.currency,
+  category: state.navbar.category,
+});
+
+const mapDispatchToProps = {
+  openCurrency,
+  closeCurrency,
+  changeCategory,
+  changeCurrency,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);
