@@ -24,3 +24,14 @@
 .yen-sign p {
   margin-right: 5px;
 }
+
+.loading {
+  display: flex;
+  justify-content: center;
+  font-size: 55px;
+}
+
+.link {
+  text-decoration: none;
+  color: inherit;
+}

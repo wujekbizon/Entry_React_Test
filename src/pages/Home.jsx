@@ -1,5 +1,6 @@
 import './Home.scss';
 import React, { Component } from 'react';
+import { Link } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { connect } from 'react-redux';
 import { client } from '../requestMethods';
@@ -8,6 +9,7 @@ import {
   getProductsSuccess,
   getProductsFailure,
 } from '../redux/productRedux';
+import { Cart } from '../components';
 
 class Home extends Component {
   componentDidMount() {
@@ -46,15 +48,16 @@ class Home extends Component {
       this.props.getProductsSuccess(allProducts);
     } catch (error) {
       this.props.getProductsFailure();
-      console.log(this.props.error);
+      console.log(error);
     }
   };
   render() {
     const { loading, category, products } = this.props;
 
     if (loading) {
-      return <h1>Loading...</h1>;
+      return <h1 className="loading">Loading...</h1>;
     }
+
     return (
       <main className="products-page">
         <section className="category-title">
@@ -63,13 +66,36 @@ class Home extends Component {
         <section className="products-container">
           {products.map((product) => {
             return (
-              <div className="product-container" key={product.id}>
-                <img src={product.gallery[0]} alt={product.name} />
-                <div className="product-name">
-                  <h3>{product.name}</h3>
-                  <h4>$50</h4>
+              <Link className="link" to={`product/${product.id}`}>
+                <div
+                  className={
+                    !product.inStock
+                      ? 'product-container out-of-stock'
+                      : 'product-container'
+                  }
+                  key={product.id}
+                >
+                  <img src={product.gallery[0]} alt={product.name} />
+
+                  {!product.inStock && (
+                    <div className="out-stock-container">
+                      <h2>OUT OF STOCK</h2>
+                    </div>
+                  )}
+                  {product.inStock && (
+                    <div
+                      className="add-item"
+                      onClick={() => console.log('add to cart')}
+                    >
+                      <Cart />
+                    </div>
+                  )}
+                  <div className="product-name">
+                    <h3>{product.name}</h3>
+                    <h4>$50</h4>
+                  </div>
                 </div>
-              </div>
+              </Link>
             );
           })}
         </section>

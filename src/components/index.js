@@ -6,6 +6,7 @@ import Euro from './Icons/Euro';
 import Yen from './Icons/Yen';
 import EmptyCart from './Icons/EmptyCart';
 import Logo from './Icons/Logo';
+import Cart from './Icons/Cart';
 
 export {
   Navbar,
@@ -16,4 +17,5 @@ export {
   Yen,
   EmptyCart,
   Logo,
+  Cart,
 };
