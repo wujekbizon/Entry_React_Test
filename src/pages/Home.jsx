@@ -38,7 +38,9 @@ class Home extends Component {
                 description
                 category
                 brand
+                
               }
+              
             }
           }
         `,
@@ -66,14 +68,17 @@ class Home extends Component {
         <section className="products-container">
           {products.map((product) => {
             return (
-              <Link className="link" to={`product/${product.id}`}>
+              <Link
+                className="link"
+                to={`product/${product.id}`}
+                key={product.id}
+              >
                 <div
                   className={
                     !product.inStock
                       ? 'product-container out-of-stock'
                       : 'product-container'
                   }
-                  key={product.id}
                 >
                   <img src={product.gallery[0]} alt={product.name} />
 
