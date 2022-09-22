@@ -38,7 +38,13 @@ class Home extends Component {
                 description
                 category
                 brand
-                
+                prices {
+                  amount
+                  currency {
+                    label
+                    symbol
+                  }
+                }
               }
               
             }
@@ -53,6 +59,7 @@ class Home extends Component {
       console.log(error);
     }
   };
+
   render() {
     const { loading, category, products } = this.props;
 

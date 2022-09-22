@@ -3,6 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { client } from '../requestMethods';
+import { gql } from '@apollo/client';
 
 function withParams(Component) {
   return (props) => <Component {...props} params={useParams()} />;
@@ -11,6 +12,52 @@ function withParams(Component) {
 class Product extends Component {
   state = { mainImg: null, size: 'm' };
 
+  componentDidMount() {
+    const { id } = this.props.params;
+
+    this.getProduct(id);
+  }
+
+  getProduct = async (id) => {
+    try {
+      const { data } = await client.query({
+        query: gql`
+          query {
+            product(id: "${id}" ) {
+              id
+              name
+              inStock
+              gallery
+              description
+              category
+              brand
+              attributes {
+                id
+                name
+                type
+                items{
+                  displayValue
+                  value
+                  id
+                }
+              }
+              prices {
+                amount
+                currency {
+                  label
+                  symbol
+                }
+              }
+            }
+          }
+        `,
+      });
+
+      console.log(data);
+    } catch (error) {
+      console.log(error);
+    }
+  };
   onHandleSize = (value) => {
     if (value === 'xs') {
       this.setState({ size: 'xs' });
@@ -24,7 +71,7 @@ class Product extends Component {
   };
 
   render() {
-    let { id } = this.props.params;
+    const { id } = this.props.params;
     const { products } = this.props;
     const foundProduct = products.find((product) => product.id === id);
 
