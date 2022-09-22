@@ -1,6 +1,7 @@
 import './Navbar.scss';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
 import {
   openCurrency,
   closeCurrency,
@@ -71,7 +72,9 @@ class Navbar extends Component {
           </div>
         </div>
         <div className="center">
-          <Logo />
+          <Link to="/">
+            <Logo />
+          </Link>
         </div>
         <div className="right">
           <div className="currency-container">

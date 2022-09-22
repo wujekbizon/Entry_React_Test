@@ -57,6 +57,7 @@
       line-height: 27px;
       letter-spacing: 0em;
       text-align: left;
+      margin-bottom: 16px;
     }
 
     h3 {
@@ -76,7 +77,53 @@
       text-transform: uppercase;
     }
 
+    .product-size {
+      margin-top: 20px;
+
+      .size-container {
+        margin-top: 10px;
+        display: flex;
+
+        .item-size {
+          width: 63px;
+          height: 45px;
+          background: #ffffff;
+          border: 1px solid #1d1f22;
+          font-family: Source Sans Pro;
+          font-size: 16px;
+          font-weight: 400;
+          line-height: 18px;
+          letter-spacing: 0.05em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          margin-right: 12px;
+          cursor: pointer;
+
+          &.active {
+            background-color: #1d1f22;
+            color: white;
+          }
+        }
+      }
+    }
+
+    .product-color {
+      margin-top: 20px;
+      .colors-container {
+        display: flex;
+
+        .item-color {
+          width: 32px;
+          height: 32px;
+          background: #d3d2d5;
+        }
+      }
+    }
+
     .product-price {
+      margin-top: 20px;
+
       p {
         font-family: 'Raleway';
         font-style: normal;
@@ -85,6 +132,28 @@
         line-height: 18px;
         margin-top: 10px;
       }
+    }
+
+    button {
+      width: 292px;
+      padding: 16px 32px;
+      background: #5ece7b;
+      border: none;
+      color: white;
+      text-transform: uppercase;
+      cursor: pointer;
+      margin: 20px 0;
+
+      &:hover {
+        background-color: #4cc06b;
+      }
+    }
+
+    .product-description {
+      font-family: 'Roboto';
+      font-weight: 400;
+      font-size: 16px;
+      line-height: 25.59px;
     }
   }
 }
