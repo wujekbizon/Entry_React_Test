@@ -104,7 +104,7 @@ class Home extends Component {
                   )}
                   <div className="product-name">
                     <h3>{product.name}</h3>
-                    <h4>$50</h4>
+                    <h4>${product.prices[0].amount}</h4>
                   </div>
                 </div>
               </Link>
