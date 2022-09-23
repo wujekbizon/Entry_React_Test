@@ -61,7 +61,7 @@ class Home extends Component {
   };
 
   render() {
-    const { loading, category, products } = this.props;
+    const { loading, category, products, currency } = this.props;
 
     if (loading) {
       return <h1 className="loading">Loading...</h1>;
@@ -104,7 +104,27 @@ class Home extends Component {
                   )}
                   <div className="product-name">
                     <h3>{product.name}</h3>
-                    <h4>${product.prices[0].amount}</h4>
+                    {currency === 'usd' && (
+                      <h4>
+                        {' '}
+                        {product.prices[0].currency.symbol}
+                        {product.prices[0].amount}
+                      </h4>
+                    )}
+                    {currency === 'eur' && (
+                      <h4>
+                        {' '}
+                        € {/* {product.prices[1].currency.symbol} */}
+                        {product.prices[1].amount}
+                      </h4>
+                    )}
+                    {currency === 'yen' && (
+                      <h4>
+                        {' '}
+                        {product.prices[3].currency.symbol}
+                        {product.prices[3].amount}
+                      </h4>
+                    )}
                   </div>
                 </div>
               </Link>
@@ -121,6 +141,7 @@ const mapStateToProps = (state) => ({
   products: state.product.products,
   loading: state.product.isLoading,
   error: state.product.isError,
+  currency: state.navbar.currency,
 });
 
 const mapDispatchToProps = {
