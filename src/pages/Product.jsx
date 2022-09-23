@@ -10,12 +10,13 @@ function withParams(Component) {
 }
 
 class Product extends Component {
-  state = { mainImg: null, size: 'm' };
+  state = { product: {}, mainImg: null, size: '' };
 
   componentDidMount() {
     const { id } = this.props.params;
-
-    this.getProduct(id);
+    if (id) {
+      this.getProduct(id);
+    }
   }
 
   getProduct = async (id) => {
@@ -53,92 +54,65 @@ class Product extends Component {
         `,
       });
 
-      console.log(data);
+      const product = data.product;
+      console.log(product);
+      this.setState({ product });
     } catch (error) {
       console.log(error);
     }
   };
-  onHandleSize = (value) => {
-    if (value === 'xs') {
-      this.setState({ size: 'xs' });
-    } else if (value === 's') {
-      this.setState({ size: 's' });
-    } else if (value === 'm') {
-      this.setState({ size: 'm' });
-    } else {
-      this.setState({ size: 'l' });
-    }
-  };
 
   render() {
-    const { id } = this.props.params;
-    const { products } = this.props;
-    const foundProduct = products.find((product) => product.id === id);
+    const { currency } = this.props;
+    const { product } = this.state;
 
     return (
       <main className="product">
         <div className="product-img">
           <div className="side-images">
-            {foundProduct?.gallery.map((img, index) => {
+            {product.gallery?.map((img, index) => {
               return (
                 <div
                   className="thumb-img"
                   key={index}
                   onClick={() => this.setState({ mainImg: img })}
                 >
-                  <img src={img} alt={foundProduct?.name} />
+                  <img src={img} alt="img" />
                 </div>
               );
             })}
           </div>
           <div className="main-img">
             <img
-              src={this.state.mainImg || foundProduct?.gallery[0]}
-              alt={foundProduct?.name}
+              src={this.state.mainImg || product.gallery?.[0]}
+              alt={product.name}
             />
           </div>
         </div>
 
         <div className="product-container">
           <div>
-            <h2>{foundProduct?.brand}</h2>
-            <h3>{foundProduct?.name}</h3>
+            <h2>{product.brand}</h2>
+            <h3>{product.name}</h3>
           </div>
           <div className="product-size">
             <h4>Size:</h4>
             <div className="size-container">
-              <div
-                className={
-                  this.state.size === 'xs' ? 'item-size active' : 'item-size'
-                }
-                onClick={() => this.onHandleSize('xs')}
-              >
-                XS
-              </div>
-              <div
-                className={
-                  this.state.size === 's' ? 'item-size active' : 'item-size'
-                }
-                onClick={() => this.onHandleSize('s')}
-              >
-                S
-              </div>
-              <div
-                className={
-                  this.state.size === 'm' ? 'item-size active' : 'item-size'
-                }
-                onClick={() => this.onHandleSize('m')}
-              >
-                M
-              </div>
-              <div
-                className={
-                  this.state.size === 'l' ? 'item-size active' : 'item-size'
-                }
-                onClick={() => this.onHandleSize('l')}
-              >
-                L
-              </div>
+              {product.attributes?.[0]?.items.map((item) => {
+                return (
+                  <div
+                    key={item.id}
+                    className={
+                      this.state.size === item.value
+                        ? 'item-size active'
+                        : 'item-size'
+                    }
+                    onClick={() => this.setState({ size: item.value })}
+                  >
+                    {item.displayValue}
+                  </div>
+                );
+              })}
             </div>
           </div>
           <div className="product-color">
@@ -151,12 +125,33 @@ class Product extends Component {
           </div>
           <div className="product-price">
             <h4>Price:</h4>
-            <p>$50.00</p>
+
+            {currency === 'usd' && (
+              <p>
+                {' '}
+                {product.prices?.[0].currency.symbol}
+                {product.prices?.[0].amount}
+              </p>
+            )}
+            {currency === 'eur' && (
+              <p>
+                {' '}
+                €{/* {product.prices[1].currency.symbol} */}
+                {product.prices?.[1].amount}
+              </p>
+            )}
+            {currency === 'yen' && (
+              <p>
+                {' '}
+                {product.prices?.[3].currency.symbol}
+                {product.prices?.[3].amount}
+              </p>
+            )}
           </div>
           <button type="button">Add to cart</button>
           <div
             className="product-description"
-            dangerouslySetInnerHTML={{ __html: foundProduct.description }}
+            dangerouslySetInnerHTML={{ __html: product.description }}
           />
         </div>
       </main>
@@ -166,6 +161,7 @@ class Product extends Component {
 
 const mapStateToProps = (state) => ({
   products: state.product.products,
+  currency: state.navbar.currency,
 });
 
 const mapDispatchToProps = {};
