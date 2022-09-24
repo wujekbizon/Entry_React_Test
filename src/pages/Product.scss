@@ -77,10 +77,8 @@
       text-transform: uppercase;
     }
 
-    .product-size {
-      margin-top: 20px;
-
-      .size-container {
+    .items-content {
+      .items-container {
         margin-top: 10px;
         display: flex;
 
@@ -99,6 +97,7 @@
           justify-content: center;
           margin-right: 12px;
           cursor: pointer;
+          text-align: center;
 
           &.active {
             background-color: #1d1f22;
@@ -108,8 +107,9 @@
       }
     }
 
-    .product-color {
+    .product-colors {
       margin-top: 20px;
+
       .colors-container {
         display: flex;
 
@@ -117,6 +117,13 @@
           width: 32px;
           height: 32px;
           background: #d3d2d5;
+          margin-right: 8px;
+          border: 1px solid transparent;
+          cursor: pointer;
+
+          &.active {
+            border-color: #5ece7b;
+          }
         }
       }
     }
@@ -146,6 +153,11 @@
 
       &:hover {
         background-color: #4cc06b;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+        cursor: not-allowed;
       }
     }
 
