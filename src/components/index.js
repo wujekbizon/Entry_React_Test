@@ -7,6 +7,9 @@ import Yen from './Icons/Yen';
 import EmptyCart from './Icons/EmptyCart';
 import Logo from './Icons/Logo';
 import Cart from './Icons/Cart';
+import Plus from './Icons/Plus';
+import Minus from './Icons/Minus';
+import Product from './Product/Product';
 
 export {
   Navbar,
@@ -18,4 +21,7 @@ export {
   EmptyCart,
   Logo,
   Cart,
+  Product,
+  Plus,
+  Minus,
 };
