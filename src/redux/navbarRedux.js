@@ -10,10 +10,10 @@ const navbarSlice = createSlice({
   name: 'navbar',
   initialState,
   reducers: {
-    openCurrency: (state, action) => {
+    openCurrency: (state) => {
       state.isOpen = true;
     },
-    closeCurrency: (state, action) => {
+    closeCurrency: (state) => {
       state.isOpen = false;
     },
     changeCategory: (state, action) => {

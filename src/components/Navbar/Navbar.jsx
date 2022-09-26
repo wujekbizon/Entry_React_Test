@@ -35,7 +35,7 @@ class Navbar extends Component {
   };
 
   render() {
-    const { open, category, currency, closeCurrency, openCurrency } =
+    const { open, category, currency, closeCurrency, openCurrency, quantity } =
       this.props;
     return (
       <nav className="navbar">
@@ -90,10 +90,12 @@ class Navbar extends Component {
           </div>
 
           <div className="cart-container">
-            <EmptyCart />
-            <div className="cart-items">
-              <p>3</p>
-            </div>
+            <Link to="/cart">
+              <EmptyCart />
+              <div className="cart-items">
+                <p>{quantity}</p>
+              </div>
+            </Link>
           </div>
         </div>
         <div className={open ? 'currency-switcher open' : 'currency-switcher'}>
@@ -116,6 +118,7 @@ const mapStateToProps = (state) => ({
   open: state.navbar.isOpen,
   currency: state.navbar.currency,
   category: state.navbar.category,
+  quantity: state.cart.quantity,
 });
 
 const mapDispatchToProps = {
