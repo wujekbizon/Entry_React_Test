@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { client } from '../requestMethods';
 import { gql } from '@apollo/client';
+import { addProduct, calculateTotals } from '../redux/cartRedux';
 
 function withParams(Component) {
   return (props) => <Component {...props} params={useParams()} />;
@@ -18,12 +19,19 @@ class Product extends Component {
     color: '',
     touch: '',
     usb: '',
+    quantity: 1,
   };
 
   componentDidMount() {
     const { id } = this.props.params;
     if (id) {
       this.getProduct(id);
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.products !== this.props.products) {
+      this.props.calculateTotals();
     }
   }
 
@@ -70,8 +78,8 @@ class Product extends Component {
   };
 
   render() {
-    const { currency } = this.props;
-    const { product } = this.state;
+    const { currency, addProduct } = this.props;
+    const { product, quantity, size, capacity, color, usb, touch } = this.state;
 
     return (
       <main className="product">
@@ -255,7 +263,21 @@ class Product extends Component {
               </p>
             )}
           </div>
-          <button type="button" disabled={!product.inStock}>
+          <button
+            type="button"
+            disabled={!product.inStock}
+            onClick={() => {
+              addProduct({
+                ...product,
+                quantity,
+                size,
+                capacity,
+                color,
+                touch,
+                usb,
+              });
+            }}
+          >
             {product.inStock ? 'Add to cart' : 'Out of stock'}
           </button>
           <div
@@ -269,11 +291,11 @@ class Product extends Component {
 }
 
 const mapStateToProps = (state) => ({
-  products: state.product.products,
   currency: state.navbar.currency,
+  products: state.cart.products,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = { addProduct, calculateTotals };
 
 export default connect(
   mapStateToProps,

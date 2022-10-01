@@ -1,64 +1,212 @@
 import './Product.scss';
 import React, { Component } from 'react';
-import img from '../../assets/images/1.jpg';
 import { Plus, Minus } from '../index';
+import { connect } from 'react-redux';
+import { increase, decrease } from '../../redux/cartRedux';
+import { calculateTotals } from '../../redux/cartRedux';
 
 export class Product extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.products !== this.props.products) {
+      this.props.calculateTotals();
+    }
+  }
+
   render() {
+    const { increase, decrease, products, currency } = this.props;
+
     return (
-      <div className="cart-product-container">
-        <div className="product-left">
-          <div className="product-info">
-            <h2>Apollo</h2>
-            <h3>Running Short</h3>
-          </div>
-          <div className="price-container">
-            <h4>$50</h4>
-          </div>
-          <div className="sizes-container">
-            <h4>Size:</h4>
-            <div className="size-container">
-              <div className="item-size active">XS</div>
-              <div className="item-size ">S</div>
-              <div className="item-size ">M</div>
-              <div className="item-size ">L</div>
+      <>
+        {products.map((product) => {
+          console.log(product);
+          return (
+            <div className="cart-product-container" key={product.id}>
+              <div className="product-left">
+                <div className="product-info">
+                  <h2>{product.brand}</h2>
+                  <h3>{product.name}</h3>
+                </div>
+                <div className="price-container">
+                  {currency === 'usd' && (
+                    <h4>
+                      {' '}
+                      {product.prices[0].currency.symbol}
+                      {product.prices[0].amount}
+                    </h4>
+                  )}
+                  {currency === 'eur' && (
+                    <h4>
+                      {' '}
+                      €{/* {product.prices[1].currency.symbol} */}
+                      {product.prices[1].amount}
+                    </h4>
+                  )}
+                  {currency === 'yen' && (
+                    <h4>
+                      {' '}
+                      {product.prices[3].currency.symbol}
+                      {product.prices[3].amount}
+                    </h4>
+                  )}
+                </div>
+                {product.attributes?.map((attr) => {
+                  console.log(product);
+                  if (attr.name === 'Size') {
+                    return (
+                      <div className="sizes-container" key={attr.id}>
+                        <h4>{attr.name}:</h4>
+                        <div className="size-container">
+                          {attr.items?.map((item) => {
+                            console.log(item);
+                            return (
+                              <div
+                                key={item.id}
+                                className={
+                                  item.value === product.size
+                                    ? 'item-size active'
+                                    : 'item-size'
+                                }
+                              >
+                                {item.displayValue}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+                  if (attr.name === 'Capacity') {
+                    return (
+                      <div className="sizes-container" key={attr.id}>
+                        <h4>{attr.name}:</h4>
+                        <div className="size-container">
+                          {attr.items?.map((item) => {
+                            return (
+                              <div
+                                key={item.id}
+                                className={
+                                  item.value === product.capacity
+                                    ? 'item-size active'
+                                    : 'item-size'
+                                }
+                              >
+                                {item.displayValue}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (attr.name === 'With USB 3 ports') {
+                    return (
+                      <div className="sizes-container" key={attr.id}>
+                        <h4>{attr.name}:</h4>
+                        <div className="size-container">
+                          {attr.items?.map((item) => {
+                            return (
+                              <div
+                                key={item.id}
+                                className={
+                                  item.value === product.usb
+                                    ? 'item-size active'
+                                    : 'item-size'
+                                }
+                              >
+                                {item.displayValue}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+                  if (attr.name === 'Touch ID in keyboard') {
+                    return (
+                      <div className="sizes-container" key={attr.id}>
+                        <h4>{attr.name}:</h4>
+                        <div className="size-container">
+                          {attr.items?.map((item) => {
+                            return (
+                              <div
+                                key={item.id}
+                                className={
+                                  item.value === product.touch
+                                    ? 'item-size active'
+                                    : 'item-size'
+                                }
+                              >
+                                {item.displayValue}
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  if (attr.name === 'Color') {
+                    return (
+                      <div className="colors-container" key={attr.id}>
+                        <h4>{attr.name}:</h4>
+                        <div className="color-container">
+                          {attr.items?.map((item) => {
+                            return (
+                              <div
+                                key={item.id}
+                                className={
+                                  item.value === product.color
+                                    ? 'item-color active'
+                                    : 'item-color'
+                                }
+                                style={{ backgroundColor: item.value }}
+                              ></div>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    );
+                  }
+
+                  return null;
+                })}
+              </div>
+              <div className="product-right">
+                <div className="btn-container">
+                  <div
+                    className="icon-container"
+                    onClick={() => increase(product.id)}
+                  >
+                    <Plus />
+                  </div>
+                  <h2>{product.quantity}</h2>
+                  <div
+                    className="icon-container"
+                    onClick={() => {
+                      if (product.quantity <= 1 ? 1 : decrease(product.id));
+                    }}
+                  >
+                    <Minus />
+                  </div>
+                </div>
+                <div className="img-container">
+                  <img src={product.gallery[0]} alt="" />
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="colors-container">
-            <h4>Color:</h4>
-            <div className="color-container">
-              <div
-                className="item-color active"
-                style={{ backgroundColor: '#D3D2D5' }}
-              ></div>
-              <div
-                className="item-color "
-                style={{ backgroundColor: '#2B2B2B' }}
-              ></div>
-              <div
-                className="item-color "
-                style={{ backgroundColor: '#0F6450' }}
-              ></div>
-            </div>
-          </div>
-        </div>
-        <div className="product-right">
-          <div className="btn-container">
-            <div className="icon-container">
-              <Plus />
-            </div>
-            <h2>1</h2>
-            <div className="icon-container">
-              <Minus />
-            </div>
-          </div>
-          <div className="img-container">
-            <img src={img} alt="" />
-          </div>
-        </div>
-      </div>
+          );
+        })}
+      </>
     );
   }
 }
 
-export default Product;
+const mapStateToProps = (state) => ({
+  products: state.cart.products,
+  quantity: state.cart.quantity,
+  currency: state.navbar.currency,
+});
+const mapDispatchToProps = { increase, decrease, calculateTotals };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Product);

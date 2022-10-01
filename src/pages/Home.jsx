@@ -9,6 +9,7 @@ import {
   getProductsSuccess,
   getProductsFailure,
 } from '../redux/productRedux';
+import { addProduct } from '../redux/cartRedux';
 import { Cart } from '../components';
 
 class Home extends Component {
@@ -61,7 +62,7 @@ class Home extends Component {
   };
 
   render() {
-    const { loading, category, products, currency } = this.props;
+    const { loading, category, products, currency, addProduct } = this.props;
 
     if (loading) {
       return <h1 className="loading">Loading...</h1>;
@@ -75,59 +76,55 @@ class Home extends Component {
         <section className="products-container">
           {products.map((product) => {
             return (
-              <Link
-                className="link"
-                to={`product/${product.id}`}
+              <div
                 key={product.id}
+                className={
+                  !product.inStock
+                    ? 'product-container out-of-stock'
+                    : 'product-container'
+                }
               >
-                <div
-                  className={
-                    !product.inStock
-                      ? 'product-container out-of-stock'
-                      : 'product-container'
-                  }
-                >
+                <Link className="link" to={`product/${product.id}`}>
                   <img src={product.gallery[0]} alt={product.name} />
-
-                  {!product.inStock && (
-                    <div className="out-stock-container">
-                      <h2>OUT OF STOCK</h2>
-                    </div>
-                  )}
-                  {product.inStock && (
-                    <div
-                      className="add-item"
-                      onClick={() => console.log('add to cart')}
-                    >
-                      <Cart />
-                    </div>
-                  )}
-                  <div className="product-name">
-                    <h3>{product.name}</h3>
-                    {currency === 'usd' && (
-                      <h4>
-                        {' '}
-                        {product.prices[0].currency.symbol}
-                        {product.prices[0].amount}
-                      </h4>
-                    )}
-                    {currency === 'eur' && (
-                      <h4>
-                        {' '}
-                        €{/* {product.prices[1].currency.symbol} */}
-                        {product.prices[1].amount}
-                      </h4>
-                    )}
-                    {currency === 'yen' && (
-                      <h4>
-                        {' '}
-                        {product.prices[3].currency.symbol}
-                        {product.prices[3].amount}
-                      </h4>
-                    )}
+                </Link>
+                {!product.inStock && (
+                  <div className="out-stock-container">
+                    <h2>OUT OF STOCK</h2>
                   </div>
+                )}
+                {product.inStock && (
+                  <div
+                    className="add-item"
+                    onClick={() => addProduct({ ...product, quantity: 1 })}
+                  >
+                    <Cart />
+                  </div>
+                )}
+                <div className="product-name">
+                  <h3>{product.name}</h3>
+                  {currency === 'usd' && (
+                    <h4>
+                      {' '}
+                      {product.prices[0].currency.symbol}
+                      {product.prices[0].amount}
+                    </h4>
+                  )}
+                  {currency === 'eur' && (
+                    <h4>
+                      {' '}
+                      €{/* {product.prices[1].currency.symbol} */}
+                      {product.prices[1].amount}
+                    </h4>
+                  )}
+                  {currency === 'yen' && (
+                    <h4>
+                      {' '}
+                      {product.prices[3].currency.symbol}
+                      {product.prices[3].amount}
+                    </h4>
+                  )}
                 </div>
-              </Link>
+              </div>
             );
           })}
         </section>
@@ -148,6 +145,7 @@ const mapDispatchToProps = {
   getProductsStart,
   getProductsSuccess,
   getProductsFailure,
+  addProduct,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

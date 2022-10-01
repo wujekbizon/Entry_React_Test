@@ -14,8 +14,8 @@ export class Minus extends Component {
           <path
             d="M15 22.5H30"
             stroke="#1D1F22"
-            stroke-linecap="round"
-            stroke-linejoin="round"
+            strokeLinecap="round"
+            strokeLinejoin="round"
           />
         </svg>
       </>
