@@ -34,14 +34,14 @@ export class Product extends Component {
                       {product.prices[0].amount}
                     </h4>
                   )}
-                  {currency === 'eur' && (
+                  {currency === 'gbp' && (
                     <h4>
                       {' '}
-                      €{/* {product.prices[1].currency.symbol} */}
+                      {product.prices[1].currency.symbol}
                       {product.prices[1].amount}
                     </h4>
                   )}
-                  {currency === 'yen' && (
+                  {currency === 'jpy' && (
                     <h4>
                       {' '}
                       {product.prices[3].currency.symbol}
@@ -50,14 +50,12 @@ export class Product extends Component {
                   )}
                 </div>
                 {product.attributes?.map((attr) => {
-                  console.log(product);
                   if (attr.name === 'Size') {
                     return (
                       <div className="sizes-container" key={attr.id}>
                         <h4>{attr.name}:</h4>
                         <div className="size-container">
                           {attr.items?.map((item) => {
-                            console.log(item);
                             return (
                               <div
                                 key={item.id}

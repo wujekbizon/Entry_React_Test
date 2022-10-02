@@ -109,14 +109,14 @@ class Home extends Component {
                       {product.prices[0].amount}
                     </h4>
                   )}
-                  {currency === 'eur' && (
+                  {currency === 'gbp' && (
                     <h4>
                       {' '}
-                      €{/* {product.prices[1].currency.symbol} */}
+                      {product.prices[1].currency.symbol}
                       {product.prices[1].amount}
                     </h4>
                   )}
-                  {currency === 'yen' && (
+                  {currency === 'jpy' && (
                     <h4>
                       {' '}
                       {product.prices[3].currency.symbol}

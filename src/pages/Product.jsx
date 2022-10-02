@@ -14,11 +14,11 @@ class Product extends Component {
   state = {
     product: {},
     mainImg: null,
-    size: '',
-    capacity: '',
+    size: 'S',
+    capacity: '512GB',
     color: '',
-    touch: '',
-    usb: '',
+    touch: 'Yes',
+    usb: 'Yes',
     quantity: 1,
   };
 
@@ -248,14 +248,14 @@ class Product extends Component {
                 {product.prices?.[0].amount}
               </p>
             )}
-            {currency === 'eur' && (
+            {currency === 'gbp' && (
               <p>
                 {' '}
                 €{/* {product.prices[1].currency.symbol} */}
                 {product.prices?.[1].amount}
               </p>
             )}
-            {currency === 'yen' && (
+            {currency === 'jpy' && (
               <p>
                 {' '}
                 {product.prices?.[3].currency.symbol}

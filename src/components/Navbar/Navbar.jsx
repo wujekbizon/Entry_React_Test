@@ -8,11 +8,12 @@ import {
   changeCategory,
   changeCurrency,
 } from '../../redux/navbarRedux';
+import { changeTotalCurrency } from '../../redux/cartRedux';
 import {
   Logo,
   FillArrowDown,
   FillArrowUp,
-  Euro,
+  Pound,
   Dollar,
   Yen,
   EmptyCart,
@@ -21,16 +22,19 @@ import {
 class Navbar extends Component {
   onSetDollar = () => {
     this.props.changeCurrency('usd');
+    this.props.changeTotalCurrency('usd');
     this.props.closeCurrency();
   };
 
   onSetEuro = () => {
-    this.props.changeCurrency('eur');
+    this.props.changeCurrency('gbp');
+    this.props.changeTotalCurrency('gbp');
     this.props.closeCurrency();
   };
 
   onSetYen = () => {
-    this.props.changeCurrency('yen');
+    this.props.changeCurrency('jpy');
+    this.props.changeTotalCurrency('jpy');
     this.props.closeCurrency();
   };
 
@@ -79,8 +83,8 @@ class Navbar extends Component {
         <div className="right">
           <div className="currency-container">
             {(currency === 'usd' && <Dollar />) ||
-              (currency === 'eur' && <Euro />) ||
-              (currency === 'yen' && <Yen />)}
+              (currency === 'gbp' && <Pound />) ||
+              (currency === 'jpy' && <Yen />)}
 
             {open ? (
               <FillArrowUp onClose={() => closeCurrency()} />
@@ -102,10 +106,10 @@ class Navbar extends Component {
           <button onClick={this.onSetDollar} disabled={currency === 'usd'}>
             <Dollar currency={'USD'} />
           </button>
-          <button onClick={this.onSetEuro} disabled={currency === 'eur'}>
-            <Euro currency={'EUR'} />
+          <button onClick={this.onSetEuro} disabled={currency === 'gbp'}>
+            <Pound currency={'GBP'} />
           </button>
-          <button onClick={this.onSetYen} disabled={currency === 'yen'}>
+          <button onClick={this.onSetYen} disabled={currency === 'jpy'}>
             <Yen currency={'JPY'} />
           </button>
         </div>
@@ -126,6 +130,7 @@ const mapDispatchToProps = {
   closeCurrency,
   changeCategory,
   changeCurrency,
+  changeTotalCurrency,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

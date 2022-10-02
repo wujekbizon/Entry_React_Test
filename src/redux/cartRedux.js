@@ -4,6 +4,7 @@ const initialState = {
   products: [],
   quantity: 0,
   total: 0,
+  currency: 'usd',
 };
 
 export const cartSlice = createSlice({
@@ -13,7 +14,7 @@ export const cartSlice = createSlice({
     addProduct: (state, { payload }) => {
       state.quantity += 1;
       state.products.push(payload);
-      state.total += payload.prices[0].amount * payload.quantity;
+      // state.total += payload.prices[1].amount * payload.quantity;
     },
     increase: (state, { payload }) => {
       const cartItem = state.products.find((item) => {
@@ -32,7 +33,20 @@ export const cartSlice = createSlice({
       let total = 0;
       state.products.forEach((item) => {
         quantity += item.quantity;
-        total += item.prices[0].amount * item.quantity;
+        // const prices = item.prices.map((p) => {
+        //   const currency = p.currency.label.toLowerCase();
+        //   return currency;
+        // });
+        // console.log(prices);
+        if (state.currency === 'usd') {
+          total += item.prices[0].amount * item.quantity;
+        }
+        if (state.currency === 'gbp') {
+          total += item.prices[1].amount * item.quantity;
+        }
+        if (state.currency === 'jpy') {
+          total += item.prices[3].amount * item.quantity;
+        }
       });
       state.quantity = quantity;
       state.total = total;
@@ -40,10 +54,19 @@ export const cartSlice = createSlice({
     clearCart: (state) => {
       state.products = [];
     },
+    changeTotalCurrency: (state, { payload }) => {
+      state.currency = payload;
+    },
   },
 });
 
-export const { addProduct, calculateTotals, increase, decrease, clearCart } =
-  cartSlice.actions;
+export const {
+  addProduct,
+  calculateTotals,
+  increase,
+  decrease,
+  clearCart,
+  changeTotalCurrency,
+} = cartSlice.actions;
 
 export default cartSlice.reducer;

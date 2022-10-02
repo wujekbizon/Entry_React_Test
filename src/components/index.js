@@ -2,7 +2,7 @@ import Navbar from './Navbar/Navbar';
 import FillArrowDown from './Icons/FillArrowDown';
 import FillArrowUp from './Icons/FillArrowUp';
 import Dollar from './Icons/Dollar';
-import Euro from './Icons/Euro';
+import Pound from './Icons/Pound';
 import Yen from './Icons/Yen';
 import EmptyCart from './Icons/EmptyCart';
 import Logo from './Icons/Logo';
@@ -16,7 +16,7 @@ export {
   FillArrowDown,
   FillArrowUp,
   Dollar,
-  Euro,
+  Pound,
   Yen,
   EmptyCart,
   Logo,

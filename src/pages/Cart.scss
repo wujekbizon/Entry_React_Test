@@ -35,22 +35,33 @@
 
   .cart-summary {
     margin: 32px 0;
+
     h4 {
       font-family: 'Raleway';
       font-weight: 400;
       font-size: 24px;
       line-height: 28px;
+      margin-right: 10px;
     }
+
     span {
       font-family: 'Roboto';
     }
 
     .tax {
+      display: flex;
+      align-items: center;
       padding: 4px 0;
+
+      font-family: 'Roboto';
+      font-weight: 500;
+      font-size: 24px;
     }
+
     .quantity {
       padding: 4px 0;
     }
+
     .total {
       display: flex;
       align-items: center;

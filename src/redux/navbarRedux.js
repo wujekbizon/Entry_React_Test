@@ -16,11 +16,11 @@ const navbarSlice = createSlice({
     closeCurrency: (state) => {
       state.isOpen = false;
     },
-    changeCategory: (state, action) => {
-      state.category = action.payload;
+    changeCategory: (state, { payload }) => {
+      state.category = payload;
     },
-    changeCurrency: (state, action) => {
-      state.currency = action.payload;
+    changeCurrency: (state, { payload }) => {
+      state.currency = payload;
     },
   },
 });

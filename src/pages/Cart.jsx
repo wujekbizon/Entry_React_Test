@@ -3,9 +3,15 @@ import React, { Component } from 'react';
 import { Product } from '../components';
 import { Dollar, Euro, Yen } from '../components';
 import { connect } from 'react-redux';
-import { clearCart } from '../redux/cartRedux';
+import { calculateTotals, clearCart } from '../redux/cartRedux';
 
 export class Cart extends Component {
+  componentDidUpdate(prevProps, prevState) {
+    if (prevProps.currency !== this.props.currency) {
+      this.props.calculateTotals();
+    }
+  }
+
   render() {
     const { quantity, total, currency, clearCart } = this.props;
     return (
@@ -21,9 +27,11 @@ export class Cart extends Component {
         </section>
         <section className="cart-summary">
           <div className="tax">
-            <h4>
-              Tax 21%: <span>${(total * 0.21).toFixed(2)}</span>
-            </h4>
+            <h4>Tax 21%:</h4>
+            {(currency === 'usd' && <Dollar />) ||
+              (currency === 'gbp' && '£') ||
+              (currency === 'jpy' && <Yen />)}
+            <span>{(total * 0.21).toFixed(2)}</span>
           </div>
           <div className="quantity">
             <h4>
@@ -33,8 +41,8 @@ export class Cart extends Component {
           <div className="total">
             <h4>Total: </h4>
             {(currency === 'usd' && <Dollar />) ||
-              (currency === 'eur' && <Euro />) ||
-              (currency === 'yen' && <Yen />)}
+              (currency === 'gbp' && '£') ||
+              (currency === 'jpy' && <Yen />)}
             <span>{total.toFixed(2)}</span>
           </div>
           <button type="button" className="btn-order">
@@ -49,11 +57,12 @@ export class Cart extends Component {
 const mapStateToProps = (state) => ({
   quantity: state.cart.quantity,
   total: state.cart.total,
-  currency: state.navbar.currency,
+  currency: state.cart.currency,
 });
 
 const mapDispatchToProps = {
   clearCart,
+  calculateTotals,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Cart);
