@@ -9,8 +9,8 @@ import {
   getProductsSuccess,
   getProductsFailure,
 } from '../redux/productRedux';
-import { addProduct } from '../redux/cartRedux';
-import { Cart } from '../components';
+import { addProduct, calculateTotals, increase } from '../redux/cartRedux';
+import { Cart, CartModal } from '../components';
 
 class Home extends Component {
   componentDidMount() {
@@ -21,6 +21,9 @@ class Home extends Component {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.category !== this.props.category) {
       this.onStartFetch(this.props.category);
+    }
+    if (prevProps.cartProducts !== this.props.cartProducts) {
+      this.props.calculateTotals();
     }
   }
 
@@ -39,6 +42,16 @@ class Home extends Component {
                 description
                 category
                 brand
+                attributes {
+                  id
+                  name
+                  type
+                  items{
+                    displayValue
+                    value
+                    id
+                  }
+                }
                 prices {
                   amount
                   currency {
@@ -61,74 +74,89 @@ class Home extends Component {
     }
   };
 
+  onAddProduct = (id, product) => {
+    const sameProduct = this.props.cartProducts.find((item) => item.id === id);
+    if (sameProduct && sameProduct.id === id) {
+      this.props.increase(id);
+    } else {
+      this.props.addProduct({
+        ...product,
+        quantity: 1,
+      });
+    }
+  };
+
   render() {
-    const { loading, category, products, currency, addProduct } = this.props;
+    const { loading, category, products, currency, isCartOpen } = this.props;
 
     if (loading) {
       return <h1 className="loading">Loading...</h1>;
     }
 
     return (
-      <main className="products-page">
-        <section className="category-title">
-          <h2>{category.toUpperCase()}</h2>
-        </section>
-        <section className="products-container">
-          {products.map((product) => {
-            return (
-              <div
-                key={product.id}
-                className={
-                  !product.inStock
-                    ? 'product-container out-of-stock'
-                    : 'product-container'
-                }
-              >
-                <Link className="link" to={`product/${product.id}`}>
-                  <img src={product.gallery[0]} alt={product.name} />
-                </Link>
-                {!product.inStock && (
-                  <div className="out-stock-container">
-                    <h2>OUT OF STOCK</h2>
+      <>
+        {isCartOpen && <CartModal />}
+        <main className="products-page">
+          <section className="category-title">
+            <h2>{category.toUpperCase()}</h2>
+          </section>
+          <section className="products-container">
+            {products.map((product) => {
+              return (
+                <div
+                  key={product.id}
+                  className={
+                    !product.inStock
+                      ? 'product-container out-of-stock'
+                      : 'product-container'
+                  }
+                >
+                  <Link className="link" to={`product/${product.id}`}>
+                    <img src={product.gallery[0]} alt={product.name} />
+                  </Link>
+                  {!product.inStock && (
+                    <div className="out-stock-container">
+                      <h2>OUT OF STOCK</h2>
+                    </div>
+                  )}
+                  {product.inStock && (
+                    <div
+                      className="add-item"
+                      onClick={() => this.onAddProduct(product.id, product)}
+                    >
+                      <Cart />
+                    </div>
+                  )}
+                  <div className="product-name">
+                    <h3>{product.name}</h3>
+                    {currency === 'usd' && (
+                      <h4>
+                        {' '}
+                        {product.prices[0].currency.symbol}
+                        {product.prices[0].amount}
+                      </h4>
+                    )}
+                    {currency === 'gbp' && (
+                      <h4>
+                        {' '}
+                        {product.prices[1].currency.symbol}
+                        {product.prices[1].amount}
+                      </h4>
+                    )}
+                    {currency === 'jpy' && (
+                      <h4>
+                        {' '}
+                        {product.prices[3].currency.symbol}
+                        {product.prices[3].amount}
+                      </h4>
+                    )}
                   </div>
-                )}
-                {product.inStock && (
-                  <div
-                    className="add-item"
-                    onClick={() => addProduct({ ...product, quantity: 1 })}
-                  >
-                    <Cart />
-                  </div>
-                )}
-                <div className="product-name">
-                  <h3>{product.name}</h3>
-                  {currency === 'usd' && (
-                    <h4>
-                      {' '}
-                      {product.prices[0].currency.symbol}
-                      {product.prices[0].amount}
-                    </h4>
-                  )}
-                  {currency === 'gbp' && (
-                    <h4>
-                      {' '}
-                      {product.prices[1].currency.symbol}
-                      {product.prices[1].amount}
-                    </h4>
-                  )}
-                  {currency === 'jpy' && (
-                    <h4>
-                      {' '}
-                      {product.prices[3].currency.symbol}
-                      {product.prices[3].amount}
-                    </h4>
-                  )}
                 </div>
-              </div>
-            );
-          })}
-        </section>
-      </main>
+              );
+            })}
+          </section>
+        </main>
+      </>
     );
   }
 }
@@ -139,6 +167,8 @@ const mapStateToProps = (state) => ({
   loading: state.product.isLoading,
   error: state.product.isError,
   currency: state.navbar.currency,
+  cartProducts: state.cart.products,
+  isCartOpen: state.navbar.isCartOpen,
 });
 
 const mapDispatchToProps = {
@@ -146,6 +176,8 @@ const mapDispatchToProps = {
   getProductsSuccess,
   getProductsFailure,
   addProduct,
+  calculateTotals,
+  increase,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Home);

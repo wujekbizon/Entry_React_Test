@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Dollar extends Component {
   render() {
     return (
-      <React.Fragment className="dollar-sign">
+      <React.Fragment>
         <svg
           width="11"
           height="18"

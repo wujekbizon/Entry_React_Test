@@ -9,7 +9,9 @@ import Logo from './Icons/Logo';
 import Cart from './Icons/Cart';
 import Plus from './Icons/Plus';
 import Minus from './Icons/Minus';
+import BinIcon from './Icons/BinIcon';
 import Product from './Product/Product';
+import CartModal from './CartModal/CartModal';
 
 export {
   Navbar,
@@ -24,4 +26,6 @@ export {
   Product,
   Plus,
   Minus,
+  BinIcon,
+  CartModal,
 };

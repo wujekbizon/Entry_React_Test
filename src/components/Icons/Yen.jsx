@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export default class Yen extends Component {
   render() {
     return (
-      <React.Fragment className="yen-sign">
+      <React.Fragment>
         <svg
           xmlns="http://www.w3.org/2000/svg"
           fontSize={'10px'}

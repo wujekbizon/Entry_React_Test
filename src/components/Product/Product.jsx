@@ -1,9 +1,13 @@
 import './Product.scss';
 import React, { Component } from 'react';
-import { Plus, Minus } from '../index';
+import { Plus, Minus, BinIcon } from '../index';
 import { connect } from 'react-redux';
-import { increase, decrease } from '../../redux/cartRedux';
-import { calculateTotals } from '../../redux/cartRedux';
+import {
+  increase,
+  decrease,
+  calculateTotals,
+  removeProduct,
+} from '../../redux/cartRedux';
 
 export class Product extends Component {
   componentDidUpdate(prevProps, prevState) {
@@ -13,12 +17,12 @@ export class Product extends Component {
   }
 
   render() {
-    const { increase, decrease, products, currency } = this.props;
+    const { increase, decrease, products, currency, removeProduct } =
+      this.props;
 
     return (
       <>
         {products.map((product) => {
-          console.log(product);
           return (
             <div className="cart-product-container" key={product.id}>
               <div className="product-left">
@@ -190,6 +194,12 @@ export class Product extends Component {
                 </div>
                 <div className="img-container">
                   <img src={product.gallery[0]} alt="" />
+                  <div
+                    className="bin"
+                    onClick={() => removeProduct(product.id)}
+                  >
+                    <BinIcon />
+                  </div>
                 </div>
               </div>
             </div>
@@ -205,6 +215,11 @@ const mapStateToProps = (state) => ({
   quantity: state.cart.quantity,
   currency: state.navbar.currency,
 });
-const mapDispatchToProps = { increase, decrease, calculateTotals };
+const mapDispatchToProps = {
+  increase,
+  decrease,
+  calculateTotals,
+  removeProduct,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Product);

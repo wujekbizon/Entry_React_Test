@@ -7,6 +7,8 @@ import {
   closeCurrency,
   changeCategory,
   changeCurrency,
+  cartOpen,
+  cartClose,
 } from '../../redux/navbarRedux';
 import { changeTotalCurrency } from '../../redux/cartRedux';
 import {
@@ -39,8 +41,15 @@ class Navbar extends Component {
   };
 
   render() {
-    const { open, category, currency, closeCurrency, openCurrency, quantity } =
-      this.props;
+    const {
+      open,
+      category,
+      currency,
+      closeCurrency,
+      openCurrency,
+      quantity,
+      cartOpen,
+    } = this.props;
     return (
       <nav className="navbar">
         <div className="left">
@@ -93,13 +102,11 @@ class Navbar extends Component {
             )}
           </div>
 
-          <div className="cart-container">
-            <Link to="/cart">
-              <EmptyCart />
-              <div className="cart-items">
-                <p>{quantity}</p>
-              </div>
-            </Link>
+          <div className="cart-container" onClick={() => cartOpen()}>
+            <EmptyCart />
+            <div className="cart-items">
+              <p>{quantity}</p>
+            </div>
           </div>
         </div>
         <div className={open ? 'currency-switcher open' : 'currency-switcher'}>
@@ -131,6 +138,8 @@ const mapDispatchToProps = {
   changeCategory,
   changeCurrency,
   changeTotalCurrency,
+  cartClose,
+  cartOpen,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

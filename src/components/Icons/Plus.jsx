@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 export class Plus extends Component {
   render() {
     return (
-      <>
+      <div className="icon">
         <svg width="45" height="45" viewBox="0 0 45 45">
           <g clipPath="url(#clip0_150_1451)">
             <path
@@ -20,7 +20,7 @@ export class Plus extends Component {
             />
           </g>
         </svg>
-      </>
+      </div>
     );
   }
 }

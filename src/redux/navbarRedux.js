@@ -4,6 +4,7 @@ const initialState = {
   isOpen: false,
   currency: 'usd',
   category: 'all',
+  isCartOpen: false,
 };
 
 const navbarSlice = createSlice({
@@ -22,10 +23,22 @@ const navbarSlice = createSlice({
     changeCurrency: (state, { payload }) => {
       state.currency = payload;
     },
+    cartOpen: (state) => {
+      state.isCartOpen = true;
+    },
+    cartClose: (state) => {
+      state.isCartOpen = false;
+    },
   },
 });
 
-export const { openCurrency, closeCurrency, changeCategory, changeCurrency } =
-  navbarSlice.actions;
+export const {
+  openCurrency,
+  closeCurrency,
+  changeCategory,
+  changeCurrency,
+  cartClose,
+  cartOpen,
+} = navbarSlice.actions;
 
 export default navbarSlice.reducer;
