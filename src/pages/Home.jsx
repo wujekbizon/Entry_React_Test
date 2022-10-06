@@ -13,6 +13,15 @@ import { addProduct, calculateTotals, increase } from '../redux/cartRedux';
 import { Cart, CartModal } from '../components';
 
 class Home extends Component {
+  state = {
+    quantity: 1,
+    size: '40',
+    usb: 'Yes',
+    touch: 'Yes',
+    capacity: '512G',
+    color: '#03FFF7',
+  };
+
   componentDidMount() {
     this.props.getProductsStart();
     this.onStartFetch('all');
@@ -81,7 +90,8 @@ class Home extends Component {
     } else {
       this.props.addProduct({
         ...product,
-        quantity: 1,
+
+        ...this.state,
       });
     }
   };

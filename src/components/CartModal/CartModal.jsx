@@ -4,22 +4,33 @@ import { Product } from '../index';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { cartClose } from '../../redux/navbarRedux';
+import { Dollar, Pound, Yen } from '../index';
 
 class CartModal extends Component {
   render() {
-    const { cartClose, products } = this.props;
+    const { cartClose, products, total, currency } = this.props;
 
     return (
       <aside className="cart-modal">
         <div className="cart-mini">
           <div className="cart-title">
-            <h4>My Bag</h4>
-            <span>{products.length} items</span>
+            <div className="cart-bag">
+              <h4>My Bag:</h4>
+              <span>{products.length} items</span>
+            </div>
+            <div className="close-bag" onClick={() => cartClose()}>
+              Close
+            </div>
           </div>
           <Product />
           <div className="cart-total">
             <h4>Total:</h4>
-            <span>$200</span>
+            <div className="currency-cart">
+              {(currency === 'usd' && <Dollar />) ||
+                (currency === 'gbp' && <Pound />) ||
+                (currency === 'jpy' && <Yen />)}
+              <span>{total.toFixed(2)}</span>
+            </div>
           </div>
           <div className="btn-container">
             <Link to="/cart" onClick={() => cartClose()}>
@@ -35,6 +46,8 @@ class CartModal extends Component {
 
 const mapStateToProps = (state) => ({
   products: state.cart.products,
+  total: state.cart.total,
+  currency: state.cart.currency,
 });
 
 const mapDispatchToProps = {

@@ -1,6 +1,6 @@
 import './Product.scss';
 import React, { Component } from 'react';
-import { Plus, Minus, BinIcon } from '../index';
+import { Plus, Minus } from '../index';
 import { connect } from 'react-redux';
 import {
   increase,
@@ -69,7 +69,7 @@ export class Product extends Component {
                                     : 'item-size'
                                 }
                               >
-                                {item.displayValue}
+                                {item.value}
                               </div>
                             );
                           })}
@@ -92,7 +92,7 @@ export class Product extends Component {
                                     : 'item-size'
                                 }
                               >
-                                {item.displayValue}
+                                {item.value}
                               </div>
                             );
                           })}
@@ -116,7 +116,7 @@ export class Product extends Component {
                                     : 'item-size'
                                 }
                               >
-                                {item.displayValue}
+                                {item.value}
                               </div>
                             );
                           })}
@@ -139,7 +139,7 @@ export class Product extends Component {
                                     : 'item-size'
                                 }
                               >
-                                {item.displayValue}
+                                {item.value}
                               </div>
                             );
                           })}
@@ -186,7 +186,11 @@ export class Product extends Component {
                   <div
                     className="icon-container"
                     onClick={() => {
-                      if (product.quantity <= 1 ? 1 : decrease(product.id));
+                      if (
+                        product.quantity <= 1
+                          ? removeProduct(product.id)
+                          : decrease(product.id)
+                      );
                     }}
                   >
                     <Minus />
@@ -194,12 +198,12 @@ export class Product extends Component {
                 </div>
                 <div className="img-container">
                   <img src={product.gallery[0]} alt="" />
-                  <div
+                  {/* <div
                     className="bin"
                     onClick={() => removeProduct(product.id)}
                   >
                     <BinIcon />
-                  </div>
+                  </div> */}
                 </div>
               </div>
             </div>
