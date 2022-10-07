@@ -123,6 +123,32 @@
       width: 200px;
       position: relative;
 
+      .arrows-container {
+        display: flex;
+
+        .left-arrow,
+        .right-arrow {
+          position: absolute;
+          bottom: 16px;
+          right: 50px;
+          width: 24px;
+          height: 24px;
+          background: rgba(0, 0, 0, 0.73);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+
+          &:hover {
+            background: rgba(0, 0, 0, 0.63);
+          }
+        }
+
+        .right-arrow {
+          right: 16px;
+        }
+      }
+
       img {
         height: 100%;
         width: 100%;

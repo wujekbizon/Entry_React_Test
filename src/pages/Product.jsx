@@ -80,6 +80,7 @@ class Product extends Component {
 
   onAddProduct = (id, product) => {
     const sameProduct = this.props.cartProducts.find((item) => item.id === id);
+
     if (sameProduct && sameProduct.id === id) {
       this.props.increase(id);
     } else {
@@ -285,7 +286,6 @@ class Product extends Component {
               onClick={() => {
                 addProduct({
                   ...product,
-
                   quantity,
                   size,
                   capacity,

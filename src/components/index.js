@@ -12,6 +12,8 @@ import Minus from './Icons/Minus';
 import BinIcon from './Icons/BinIcon';
 import Product from './Product/Product';
 import CartModal from './CartModal/CartModal';
+import LeftArrow from './Icons/LeftArrow';
+import RightArrow from './Icons/RightArrow';
 
 export {
   Navbar,
@@ -28,4 +30,6 @@ export {
   Minus,
   BinIcon,
   CartModal,
+  LeftArrow,
+  RightArrow,
 };

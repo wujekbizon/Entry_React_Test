@@ -1,6 +1,6 @@
 import './Product.scss';
 import React, { Component } from 'react';
-import { Plus, Minus } from '../index';
+import { Plus, Minus, RightArrow, LeftArrow } from '../index';
 import { connect } from 'react-redux';
 import {
   increase,
@@ -10,6 +10,10 @@ import {
 } from '../../redux/cartRedux';
 
 export class Product extends Component {
+  state = {
+    galleryIndex: 0,
+  };
+
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.products !== this.props.products) {
       this.props.calculateTotals();
@@ -197,13 +201,41 @@ export class Product extends Component {
                   </div>
                 </div>
                 <div className="img-container">
-                  <img src={product.gallery[0]} alt="" />
-                  {/* <div
-                    className="bin"
-                    onClick={() => removeProduct(product.id)}
-                  >
-                    <BinIcon />
-                  </div> */}
+                  <img
+                    src={product.gallery[this.state.galleryIndex]}
+                    alt="item"
+                  />
+                  ;
+                  <div className="arrows-container">
+                    <div
+                      className="left-arrow"
+                      onClick={() =>
+                        this.setState({
+                          galleryIndex:
+                            this.state.galleryIndex <= 0
+                              ? product.gallery.length - 1
+                              : this.state.galleryIndex - 1,
+                        })
+                      }
+                    >
+                      <LeftArrow />
+                    </div>
+
+                    <div
+                      className="right-arrow"
+                      onClick={() =>
+                        this.setState({
+                          galleryIndex:
+                            this.state.galleryIndex >=
+                            product.gallery.length - 1
+                              ? 0
+                              : this.state.galleryIndex + 1,
+                        })
+                      }
+                    >
+                      <RightArrow />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
