@@ -1,11 +1,11 @@
 import './Cart.scss';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Product } from '../components';
 import { Dollar, Pound, Yen } from '../components';
 import { connect } from 'react-redux';
 import { calculateTotals, clearCart } from '../redux/cartRedux';
 
-class Cart extends Component {
+class Cart extends PureComponent {
   componentDidUpdate(prevProps, prevState) {
     if (prevProps.currency !== this.props.currency) {
       this.props.calculateTotals();

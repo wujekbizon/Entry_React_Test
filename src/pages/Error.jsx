@@ -1,9 +1,9 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './Error.scss';
 import { Link } from 'react-router-dom';
 import img from '../assets/images/not-found.svg';
 
-export class Error extends Component {
+export class Error extends PureComponent {
   render() {
     return (
       <main className="error-page">

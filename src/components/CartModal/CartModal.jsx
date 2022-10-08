@@ -1,12 +1,12 @@
 import './CartModal.scss';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Product } from '../index';
 import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { cartClose } from '../../redux/navbarRedux';
 import { Dollar, Pound, Yen } from '../index';
 
-class CartModal extends Component {
+class CartModal extends PureComponent {
   render() {
     const { cartClose, products, total, currency } = this.props;
 

@@ -1,5 +1,5 @@
 import './Product.scss';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { client } from '../requestMethods';
@@ -11,7 +11,7 @@ function withParams(Component) {
   return (props) => <Component {...props} params={useParams()} />;
 }
 
-class Product extends Component {
+class Product extends PureComponent {
   state = {
     product: {},
     mainImg: null,
@@ -86,11 +86,7 @@ class Product extends Component {
     const newId = `${id}${nameAttr}${tempAtrr}`;
     const sameProduct = this.props.products.find((item) => item.id === newId);
 
-    console.log(product, id, newId);
-    console.log(sameProduct);
-
     if (sameProduct && sameProduct.id === newId) {
-      console.log('increase');
       this.props.increase(newId);
     } else {
       this.props.addProduct({
@@ -309,7 +305,7 @@ class Product extends Component {
               {currency === 'gbp' && (
                 <p>
                   {' '}
-                  {product.prices[1].currency.symbol}
+                  {product.prices?.[1].currency.symbol}
                   {product.prices?.[1].amount}
                 </p>
               )}

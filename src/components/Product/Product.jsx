@@ -1,5 +1,5 @@
 import './Product.scss';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Plus, Minus, RightArrow, LeftArrow } from '../index';
 import { connect } from 'react-redux';
 import {
@@ -9,7 +9,7 @@ import {
   removeProduct,
 } from '../../redux/cartRedux';
 
-export class Product extends Component {
+export class Product extends PureComponent {
   state = {
     galleryIndex: 0,
   };

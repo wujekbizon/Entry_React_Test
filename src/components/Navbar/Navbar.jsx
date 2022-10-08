@@ -1,5 +1,5 @@
 import './Navbar.scss';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import {
@@ -21,7 +21,7 @@ import {
   EmptyCart,
 } from '../index';
 
-class Navbar extends Component {
+class Navbar extends PureComponent {
   onSetDollar = () => {
     this.props.changeCurrency('usd');
     this.props.changeTotalCurrency('usd');

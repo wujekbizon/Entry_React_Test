@@ -1,5 +1,5 @@
 import './Home.scss';
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { gql } from '@apollo/client';
 import { connect } from 'react-redux';
@@ -12,7 +12,7 @@ import {
 import { addProduct, calculateTotals, increase } from '../redux/cartRedux';
 import { Cart, CartModal } from '../components';
 
-class Home extends Component {
+class Home extends PureComponent {
   state = {
     quantity: 1,
     size: '40',

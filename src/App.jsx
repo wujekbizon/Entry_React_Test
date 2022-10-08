@@ -6,7 +6,7 @@ import { Home, Product, Cart, Error } from './pages';
 class App extends React.Component {
   render() {
     return (
-      <React.Fragment>
+      <>
         <Navbar />
         <Routes>
           <Route path="/" element={<Home />} />
@@ -14,7 +14,7 @@ class App extends React.Component {
           <Route path="cart" element={<Cart />} />
           <Route path="*" element={<Error />} />
         </Routes>
-      </React.Fragment>
+      </>
     );
   }
 }
