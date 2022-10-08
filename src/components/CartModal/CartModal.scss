@@ -1,3 +1,4 @@
+@import '../../global.scss';
 .cart-modal {
   position: fixed;
   top: 0;
@@ -18,8 +19,11 @@
     display: flex;
     flex-direction: column;
     overflow-y: scroll;
-
     transition: all 0.3s ease-in-out;
+
+    @include smMobile {
+      right: 10px;
+    }
 
     .cart-title {
       display: flex;

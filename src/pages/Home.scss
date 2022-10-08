@@ -9,6 +9,12 @@
     justify-content: flex-start;
     padding: 80px 100px 0 100px;
 
+    @include smMobile {
+      padding: 2rem;
+      justify-content: center;
+      padding-bottom: 0;
+    }
+
     h2 {
       font-family: $navbarFont;
       font-style: normal;
@@ -16,16 +22,34 @@
       font-size: 42px;
       line-height: 67.2px;
       color: $textColor;
+
+      @include smMobile {
+        font-size: 30px;
+      }
     }
   }
 
   .products-container {
     height: 100%;
+
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 4rem 3rem;
     padding: 6rem;
     position: relative;
+
+    @include mTablet {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @include mobile {
+      grid-template-columns: repeat(1, 1fr);
+      padding: 4rem;
+    }
+
+    @include smMobile {
+      padding: 0;
+    }
 
     .out-of-stock {
       opacity: 0.5;
@@ -58,6 +82,10 @@
       position: relative;
       cursor: pointer;
 
+      @include smMobile {
+        width: 90%;
+      }
+
       &:hover {
         background-color: whitesmoke;
       }
@@ -67,6 +95,11 @@
         height: 350px;
         object-fit: cover;
         margin-bottom: 24px;
+
+        @include smMobile {
+          width: 270px;
+          height: 270px;
+        }
       }
 
       .add-item {

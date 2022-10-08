@@ -1,2 +1,31 @@
 $navbarFont: 'Raleway';
 $textColor: #1d1f22;
+
+$widthMediumTablet: 1320px;
+$widthSmallTablet: 1180px;
+$width: 900px;
+$widthSmMobile: 650px;
+
+@mixin mTablet {
+  @media (max-width: #{$widthMediumTablet}) {
+    @content;
+  }
+}
+
+@mixin smTablet {
+  @media (max-width: #{$widthSmallTablet}) {
+    @content;
+  }
+}
+
+@mixin mobile {
+  @media (max-width: #{$width}) {
+    @content;
+  }
+}
+
+@mixin smMobile {
+  @media (max-width: #{$widthSmMobile}) {
+    @content;
+  }
+}

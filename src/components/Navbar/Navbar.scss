@@ -8,6 +8,10 @@
   padding: 0 100px;
   position: relative;
 
+  @include smMobile {
+    padding: 0 21px;
+  }
+
   .left {
     display: flex;
     align-items: center;
@@ -107,6 +111,10 @@
     visibility: hidden;
     opacity: 0;
     transition: all 0.3s ease-in-out;
+
+    @include smMobile {
+      right: 20px;
+    }
 
     button {
       width: 100%;

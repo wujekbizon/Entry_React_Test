@@ -1,6 +1,12 @@
+@import '../global.scss';
+
 .cart {
   height: 100%;
   padding: 0 100px;
+
+  @include mobile {
+    padding: 0 50px;
+  }
 
   .top-container {
     display: flex;
