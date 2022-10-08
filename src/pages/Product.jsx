@@ -15,12 +15,14 @@ class Product extends Component {
   state = {
     product: {},
     mainImg: null,
-    size: 'S',
-    capacity: '512GB',
-    color: '#03FFF7',
-    touch: 'Yes',
-    usb: 'Yes',
+    size: '',
+    capacity: '',
+    color: '',
+    touch: '',
+    usb: '',
     quantity: 1,
+    tempAtrr: '',
+    nameAttr: '',
   };
 
   componentDidMount() {
@@ -79,23 +81,34 @@ class Product extends Component {
   };
 
   onAddProduct = (id, product) => {
-    const sameProduct = this.props.cartProducts.find((item) => item.id === id);
+    const { quantity, size, capacity, color, usb, touch, tempAtrr, nameAttr } =
+      this.state;
+    const newId = `${id}${nameAttr}${tempAtrr}`;
+    const sameProduct = this.props.products.find((item) => item.id === newId);
 
-    if (sameProduct && sameProduct.id === id) {
-      this.props.increase(id);
+    console.log(product, id, newId);
+    console.log(sameProduct);
+
+    if (sameProduct && sameProduct.id === newId) {
+      console.log('increase');
+      this.props.increase(newId);
     } else {
       this.props.addProduct({
         ...product,
-
-        ...this.state,
+        id: newId,
+        quantity,
+        size,
+        capacity,
+        color,
+        touch,
+        usb,
       });
     }
   };
 
   render() {
-    const { currency, addProduct, isCartOpen } = this.props;
-    const { product, quantity, size, capacity, color, usb, touch } = this.state;
-
+    const { currency, isCartOpen } = this.props;
+    const { product } = this.state;
     return (
       <>
         {isCartOpen && <CartModal />}
@@ -143,7 +156,13 @@ class Product extends Component {
                                 ? 'item-size active'
                                 : 'item-size'
                             }
-                            onClick={() => this.setState({ size: item.value })}
+                            onClick={() =>
+                              this.setState({
+                                size: item.value,
+                                tempAtrr: item.value,
+                                nameAttr: attr.name,
+                              })
+                            }
                           >
                             {item.value}
                           </div>
@@ -169,7 +188,11 @@ class Product extends Component {
                                 : 'item-size'
                             }
                             onClick={() =>
-                              this.setState({ capacity: item.value })
+                              this.setState({
+                                capacity: item.value,
+                                tempAtrr: item.value,
+                                nameAttr: attr.name,
+                              })
                             }
                           >
                             {item.value}
@@ -194,7 +217,13 @@ class Product extends Component {
                                 ? 'item-size active'
                                 : 'item-size'
                             }
-                            onClick={() => this.setState({ usb: item.value })}
+                            onClick={() =>
+                              this.setState({
+                                usb: item.value,
+                                tempAtrr: item.value,
+                                nameAttr: attr.name,
+                              })
+                            }
                           >
                             {item.value}
                           </div>
@@ -218,7 +247,13 @@ class Product extends Component {
                                 ? 'item-size active'
                                 : 'item-size'
                             }
-                            onClick={() => this.setState({ touch: item.value })}
+                            onClick={() =>
+                              this.setState({
+                                touch: item.value,
+                                tempAtrr: item.value,
+                                nameAttr: attr.name,
+                              })
+                            }
                           >
                             {item.value}
                           </div>
@@ -243,7 +278,13 @@ class Product extends Component {
                                 ? 'item-color active'
                                 : 'item-color'
                             }
-                            onClick={() => this.setState({ color: item.value })}
+                            onClick={() =>
+                              this.setState({
+                                color: item.value,
+                                tempAtrr: item.value,
+                                nameAttr: attr.name,
+                              })
+                            }
                             style={{ backgroundColor: item.value }}
                           ></div>
                         );
@@ -283,17 +324,7 @@ class Product extends Component {
             <button
               type="button"
               disabled={!product.inStock}
-              onClick={() => {
-                addProduct({
-                  ...product,
-                  quantity,
-                  size,
-                  capacity,
-                  color,
-                  touch,
-                  usb,
-                });
-              }}
+              onClick={() => this.onAddProduct(product.id, product)}
             >
               {product.inStock ? 'Add to cart' : 'Out of stock'}
             </button>
