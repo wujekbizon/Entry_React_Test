@@ -89,16 +89,29 @@ class Product extends PureComponent {
     if (sameProduct && sameProduct.id === newId) {
       this.props.increase(newId);
     } else {
-      this.props.addProduct({
-        ...product,
-        id: newId,
-        quantity,
-        size,
-        capacity,
-        color,
-        touch,
-        usb,
-      });
+      if (size || capacity || color || usb || touch) {
+        this.props.addProduct({
+          ...product,
+          id: newId,
+          quantity,
+          size,
+          capacity,
+          color,
+          touch,
+          usb,
+        });
+      } else {
+        this.props.addProduct({
+          ...product,
+          id: newId,
+          quantity,
+          size: product.attributes[0]?.items[0].value,
+          capacity: product.attributes[0]?.items[0].value,
+          color: product.attributes[1]?.items[0].value,
+          touch: product.attributes[1]?.items[0].value,
+          usb: product.attributes[2]?.items[0].value,
+        });
+      }
     }
   };
 

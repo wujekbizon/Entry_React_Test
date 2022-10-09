@@ -15,11 +15,11 @@ import { Cart, CartModal } from '../components';
 class Home extends PureComponent {
   state = {
     quantity: 1,
-    size: '40',
-    usb: 'Yes',
-    touch: 'Yes',
-    capacity: '512G',
-    color: '#03FFF7',
+    size: '',
+    usb: '',
+    touch: '',
+    capacity: '',
+    color: '',
   };
 
   componentDidMount() {
@@ -90,8 +90,12 @@ class Home extends PureComponent {
     } else {
       this.props.addProduct({
         ...product,
-
-        ...this.state,
+        quantity: 1,
+        size: product.attributes[0]?.items[0].value,
+        capacity: product.attributes[0]?.items[0].value,
+        color: product.attributes[1]?.items[0].value,
+        touch: product.attributes[1]?.items[0].value,
+        usb: product.attributes[2]?.items[0].value,
       });
     }
   };
