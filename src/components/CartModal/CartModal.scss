@@ -118,12 +118,8 @@
 
     .cart-product-container {
       border: none;
-
-      h2,
-      h3,
       h4 {
         font-size: 16px;
-        margin: 0;
       }
 
       .product-left {
@@ -131,11 +127,26 @@
         height: 100%;
         justify-content: space-evenly;
 
+        .product-info {
+          h2,
+          h3 {
+            font-size: 16px;
+            margin: 0;
+          }
+        }
+
         .price-container {
           margin: 0;
+
+          h4 {
+            font-size: 16px;
+          }
         }
 
         .sizes-container {
+          h4 {
+            font-size: 16px;
+          }
           .item-size {
             width: 24px;
             height: 24px;
@@ -144,9 +155,17 @@
           }
         }
 
-        .item-color {
-          width: 20px;
-          height: 20px;
+        .colors-container {
+          h4 {
+            font-size: 16px;
+          }
+
+          .color-container {
+            .item-color {
+              width: 20px;
+              height: 20px;
+            }
+          }
         }
       }
 

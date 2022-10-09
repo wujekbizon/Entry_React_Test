@@ -20,6 +20,24 @@ export class Product extends PureComponent {
     }
   }
 
+  onImageChange = (direction, product) => {
+    if (direction === 'left') {
+      this.setState({
+        galleryIndex:
+          this.state.galleryIndex <= 0
+            ? product.gallery.length - 1
+            : this.state.galleryIndex - 1,
+      });
+    } else {
+      this.setState({
+        galleryIndex:
+          this.state.galleryIndex >= product.gallery.length - 1
+            ? 0
+            : this.state.galleryIndex + 1,
+      });
+    }
+  };
+
   render() {
     const { increase, decrease, products, currency, removeProduct } =
       this.props;
@@ -200,42 +218,42 @@ export class Product extends PureComponent {
                     <Minus />
                   </div>
                 </div>
-                <div className="img-container">
-                  <img
-                    src={product.gallery[this.state.galleryIndex]}
-                    alt="item"
-                  />
-                  ;
-                  <div className="arrows-container">
-                    <div
-                      className="left-arrow"
-                      onClick={() =>
-                        this.setState({
-                          galleryIndex:
-                            this.state.galleryIndex <= 0
-                              ? product.gallery.length - 1
-                              : this.state.galleryIndex - 1,
-                        })
-                      }
-                    >
-                      <LeftArrow />
-                    </div>
 
-                    <div
-                      className="right-arrow"
-                      onClick={() =>
-                        this.setState({
-                          galleryIndex:
-                            this.state.galleryIndex >=
-                            product.gallery.length - 1
-                              ? 0
-                              : this.state.galleryIndex + 1,
-                        })
-                      }
-                    >
-                      <RightArrow />
+                <div
+                  className={
+                    product.gallery.length <= 1 || products.length <= 1
+                      ? 'img-container noScroll'
+                      : 'img-container scroll'
+                  }
+                >
+                  {products.length <= 1 && (
+                    <img
+                      src={product.gallery[this.state.galleryIndex]}
+                      alt="item"
+                    />
+                  )}
+                  {products.length > 1 &&
+                    product.gallery.map((item, index) => {
+                      return <img src={item} alt="item" key={index} />;
+                    })}
+
+                  {products.length <= 1 && product.gallery.length > 1 && (
+                    <div className="arrows-container">
+                      <div
+                        className="left-arrow"
+                        onClick={() => this.onImageChange('left', product)}
+                      >
+                        <LeftArrow />
+                      </div>
+
+                      <div
+                        className="right-arrow"
+                        onClick={() => this.onImageChange('right', product)}
+                      >
+                        <RightArrow />
+                      </div>
                     </div>
-                  </div>
+                  )}
                 </div>
               </div>
             </div>

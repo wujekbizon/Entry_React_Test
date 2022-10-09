@@ -125,6 +125,15 @@
     align-items: center;
     padding: 20px 0;
 
+    .noScroll {
+      overflow-y: hidden;
+    }
+
+    .scroll {
+      overflow-y: scroll;
+      cursor: n-resize;
+    }
+
     .img-container {
       height: 288px;
       width: 200px;
@@ -162,25 +171,6 @@
         object-fit: cover;
       }
     }
-
-    .bin {
-      position: absolute;
-      top: 5px;
-      right: 5px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      background-color: #5ece7b;
-      cursor: pointer;
-      transition: all 0.3s ease-in;
-      opacity: 0.7;
-
-      &:hover {
-        background-color: red;
-        opacity: 1;
-      }
-    }
-
     .btn-container {
       height: 288px;
       display: flex;
